@@ -1,0 +1,21 @@
+
+.meat-ingredient{
+    background-color: #361714;
+    border-radius: 25px;
+    width:300px;
+    height: 15px;
+}
+
+.cheese-ingredient{
+    background-color: #e6d11c;
+    border-radius: 25px;
+    width:300px;
+    height: 15px;
+}
+
+.salad-ingredient{
+    background-color: #3ba846;
+    border-radius: 25px;
+    width:300px;
+    height: 15px;
+}
