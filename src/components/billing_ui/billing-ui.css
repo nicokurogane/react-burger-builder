@@ -1,0 +1,11 @@
+.billing-ui-container{
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bill-total{
+    font-weight: bold;
+}
