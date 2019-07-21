@@ -1,21 +1,22 @@
 import React from 'react';
 
+import './ingredient-handler.css';
+
 class IngredientHandler extends React.Component {
 
     addIngredient = () => {
-    //    console.log( new this.props.classToHandle());
         this.props.onAddIngredient( new this.props.classToHandle());
     }
 
     deleteIngredient = () => {
-        console.log("no alo!");
+       this.props.onDeleteIngredient(this.props.classToHandle);
     }
 
     render() {
         return (
-            <div>
-                <button onClick={this.addIngredient} >add 1 Meat</button>
-                <button onClick={this.deleteIngredient} >remove 1 meat</button>
+            <div className="ingredient-handler-container">
+                <button onClick={this.addIngredient} >add 1 {this.props.classToHandle.name}</button>
+                <button onClick={this.deleteIngredient} >remove 1 {this.props.classToHandle.name}</button>
             </div>
         );
     }

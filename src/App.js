@@ -26,6 +26,7 @@ class App extends React.Component {
         <IngredientsManager
           ingredients={this.state.ingredients}
           onAddIngredient={this.addIngredientToBurger}
+          onDeleteIngredient={this.deleteIngredient}
         />
       </>
     );
@@ -36,6 +37,21 @@ class App extends React.Component {
       ingredients: this.state.ingredients.concat(newIngredient)
     });
   }
+
+  deleteIngredient = classToFind =>{
+    let indexToDelete = this.state.ingredients.findIndex(ingredient =>{
+       return ingredient instanceof classToFind;
+    });
+
+    if(indexToDelete === -1) return;
+
+    let newArray = this.state.ingredients.filter((ingredient, index) => index !== indexToDelete );
+    this.setState({
+      ingredients: [...newArray]
+    });
+
+  }
+
 }
 
 export default App;
