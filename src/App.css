@@ -9,6 +9,8 @@
 
 .App{
   display: flex;
+  padding:10vh;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }

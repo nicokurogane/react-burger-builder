@@ -10,18 +10,26 @@ class BillingUI extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            total: null,
-            meatQuantity: null,
-            meatSubTotal: null,
-            cheeseQuantity: null,
-            cheeseSubTotal: null,
-            saladSubTotal: null,
-            saladQuantity: null
+            total: 1,
+            meatQuantity: 0,
+            meatSubTotal: 0,
+            cheeseQuantity: 0,
+            cheeseSubTotal: 0,
+            saladSubTotal: 0,
+            saladQuantity: 0
         }
     }
 
-    componentDidMount() {
+    //FORCING A RE-RENDER
+    //https://www.freecodecamp.org/news/force-refreshing-a-react-child-component-the-easy-way-6cdbb9e6d99c/
+    componentWillReceiveProps(props) {
         const { ingredients } = this.props;
+        if( props.ingredients.length !== ingredients.length){
+            this.updatePrices( props.ingredients);
+        }
+    }
+
+    updatePrices = (ingredients) => {
         this.setState({
             total: this.getTotal(ingredients)
         });
@@ -67,28 +75,32 @@ class BillingUI extends React.Component {
 
     render() {
         return (
-            <div className="billing-ui-container">
+            <div className="billing-ui-container" >
                 <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Units</th>
-                        <th>Sub Total</th>
-                    </tr>
-                    <BillingSubTotal
-                        ingredientName={"Meat"}
-                        quantity={this.state.meatQuantity}
-                        subTotal={this.state.meatSubTotal}
-                    />
-                    <BillingSubTotal
-                        ingredientName={"Cheese"}
-                        quantity={this.state.cheeseQuantity}
-                        subTotal={this.state.cheeseSubTotal}
-                    />
-                    <BillingSubTotal
-                        ingredientName={"Salad"}
-                        quantity={this.state.saladQuantity}
-                        subTotal={this.state.saladSubTotal}
-                    />
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Units</th>
+                            <th>Sub Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <BillingSubTotal
+                            ingredientName={"Meat"}
+                            quantity={this.state.meatQuantity}
+                            subTotal={this.state.meatSubTotal}
+                        />
+                        <BillingSubTotal
+                            ingredientName={"Cheese"}
+                            quantity={this.state.cheeseQuantity}
+                            subTotal={this.state.cheeseSubTotal}
+                        />
+                        <BillingSubTotal
+                            ingredientName={"Salad"}
+                            quantity={this.state.saladQuantity}
+                            subTotal={this.state.saladSubTotal}
+                        />
+                    </tbody>
                 </table>
 
                 <span className="bill-total">{`Total: ${this.state.total}`}</span>
