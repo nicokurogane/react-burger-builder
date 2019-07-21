@@ -2,7 +2,7 @@ import Ingredient from './ingredient.js';
 
 class Cheese extends Ingredient{
     constructor(){
-        super('cheese',0.5,'cheese-ingredient')
+        super('cheese',0.50,'cheese-ingredient')
     }
 }
 

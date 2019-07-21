@@ -9,7 +9,7 @@ import  BillingUI from './components/billing_ui/BillingUI';
 import './App.css';
 
 //esto se ira al state
-const ingredients = [new Meat(), new Salad(), new Cheese()];
+const ingredients = [new Meat(),  new Cheese(), new Salad(), new Meat(),  new Cheese(), new Salad() ];
 
 function App() {
   return (
@@ -21,11 +21,4 @@ function App() {
 
 }
 
-/*
-const printIngredientType = () => {
-  ingredients.forEach(ingredient =>{
-    console.log( ingredient.constructor.name);
-  });
-} 
-*/
 export default App;

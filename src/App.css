@@ -6,3 +6,9 @@
   background-color: #23252e;
   color: white;
 }
+
+.App{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
