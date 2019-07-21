@@ -1,0 +1,25 @@
+.ingredient-render-container{
+    margin: 2px 0;
+}
+
+
+.meat-ingredient{
+    background-color: #50211d;
+    border-radius: 25px;
+    width:300px;
+    height: 15px;
+}
+
+.cheese-ingredient{
+    background-color: #e6d11c;
+    border-radius: 25px;
+    width:310px;
+    height: 10px;
+}
+
+.salad-ingredient{
+    background-color: #3ba846;
+    border-radius: 25px;
+    width:310px;
+    height: 10px;
+}

@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
+import Meat from './classes/meat.js';
+import Salad from './classes/salad.js';
+import Cheese from './classes/cheese.js'
+
+import BurgerUI from './components/burgerrender/BurgerUI';
+
 import './App.css';
+
+//esto se ira al state
+const ingredients = [new Meat(), new Salad(), new Cheese()];
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BurgerUI ingredients={ingredients} />
     </div>
   );
+
 }
 
+/*
+const printIngredientType = () => {
+  ingredients.forEach(ingredient =>{
+    console.log( ingredient.constructor.name);
+  });
+} 
+
+const getTotal = () =>{
+  return ingredients.reduce((acc, currentIng) => acc + currentIng.price, 0);
+}*/
 export default App;
