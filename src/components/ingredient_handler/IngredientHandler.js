@@ -1,4 +1,5 @@
 import React from 'react';
+import Storage from './../../classes/utility/storage.js';
 
 import './ingredient-handler.css';
 
