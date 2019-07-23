@@ -30,13 +30,13 @@ class App extends React.Component {
       <>
         <div className="App">
           <BurgerUI ingredients={this.state.hamburger} />
-          <BillingUI ingredients={this.state.hamburger} />
+          <BillingUI ingredients={this.state.hamburger} reference={ingredientsApi}/>
         </div>
-        <IngredientsManager
-          ingredients={ingredientsApi}
-          onAddIngredient={this.addIngredientToBurger}
-          onDeleteIngredient={this.deleteIngredient}
-        />
+          <IngredientsManager
+            ingredients={ingredientsApi}
+            onAddIngredient={this.addIngredientToBurger}
+            onDeleteIngredient={this.deleteIngredient}
+          />
       </>
     );
   }
