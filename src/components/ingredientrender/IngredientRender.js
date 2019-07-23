@@ -2,11 +2,11 @@ import React from 'react';
 
 import './ingredient-render.css';
 
-const IngredientRender = (props) => {
+const IngredientRender = ({ingredientName}) => {
 
     return (
         <div className="ingredient-render-container">  
-           <div className={props.ingredient.cssClass}></div>
+           <div className={`${ingredientName}-ingredient`}></div>
         </div>
     );
 };

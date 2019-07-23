@@ -1,77 +1,68 @@
 import React from "react";
-import Storage from "./classes/utility/storage.js";
-import Meat from './classes/meat.js';
-import Cheese from './classes/cheese.js';
-import Salad from './classes/salad.js';
-import BurgerUI from "./components/burgerrender/BurgerUI";
+import BurgerUI from "./components/burger_ui/BurgerUI";
 import BillingUI from "./components/billing_ui/BillingUI";
 import IngredientsManager from "./components/ingredients_manager/IngredientsManager";
 
+import ingredientsApi from "./data/ingredients.js";
+
 import "./App.css";
 
-
 class App extends React.Component {
-  state = { ingredients: [] };
+  state = { hamburger: [] };
 
-  componentDidMount() {
-    let temp = Storage.getBurgerFromLocalStorage();
-    let temp2 = temp.map(object => {
-      if (object.name === "meat") {
-        return new Meat();
-      } else if (object.name === "salad") {
-        return new Salad();
-      } else if (object.name === "cheese") {
-        return new Cheese();
-      }
-    });
-    this.setState({
-      ingredients: temp2
-    });
-  }
+  // componentDidMount() {
+  //   let temp = Storage.getBurgerFromLocalStorage().map(object => {
+  //     if (object.name === "meat") {
+  //       return new Meat();
+  //     } else if (object.name === "salad") {
+  //       return new Salad();
+  //     } else if (object.name === "cheese") {
+  //       return new Cheese();
+  //     }
+  //   });
+  //   this.setState({
+  //     ingredients: temp
+  //   });
+  // }
 
   render() {
     return (
       <>
         <div className="App">
-          <BurgerUI ingredients={this.state.ingredients} />
-          <BillingUI ingredients={this.state.ingredients} />
+          <BurgerUI ingredients={this.state.hamburger} />
+          <BillingUI ingredients={this.state.hamburger} reference={ingredientsApi}/>
         </div>
-        <IngredientsManager
-          ingredients={this.state.ingredients}
-          onAddIngredient={this.addIngredientToBurger}
-          onDeleteIngredient={this.deleteIngredient}
-        />
+          <IngredientsManager
+            ingredients={ingredientsApi}
+            onAddIngredient={this.addIngredientToBurger}
+            onDeleteIngredient={this.deleteIngredient}
+          />
       </>
     );
   }
 
   addIngredientToBurger = newIngredient => {
-    this.setState(
-      {
-        ingredients: this.state.ingredients.concat(newIngredient)
-      },
-      () => {
-        Storage.saveBurgerToLocalStorage(this.state.ingredients);
-      }
-    );
+    this.setState({
+      hamburger: this.state.hamburger.concat(newIngredient)
+    });
   };
 
-  deleteIngredient = classToFind => {
-    let indexToDelete = this.state.ingredients.findIndex(ingredient => {
-      return ingredient instanceof classToFind;
-    });
+  deleteIngredient = ingredientToDelete => {
+    let indexToDelete = this.state.hamburger.findIndex(
+      ingredient => ingredient === ingredientToDelete
+    );
 
     if (indexToDelete === -1) return;
 
-    let newArray = this.state.ingredients.filter(
+    let newArray = this.state.hamburger.filter(
       (ingredient, index) => index !== indexToDelete
     );
     this.setState(
       {
-        ingredients: newArray
+        hamburger: newArray
       },
       () => {
-        Storage.saveBurgerToLocalStorage(this.state.ingredients);
+        console.log(this.state.hamburger);
       }
     );
   };
