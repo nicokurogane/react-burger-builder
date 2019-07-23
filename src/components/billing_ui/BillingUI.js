@@ -1,4 +1,5 @@
 import React from "react";
+import IngredientHandler from "./../ingredient_handler/IngredientHandler";
 import BillingSubTotal from "./../billing_subtotal/BillingSubTotal";
 import "./billing-ui.css";
 
@@ -22,13 +23,10 @@ class BillingUI extends React.Component {
     };
   }
 
-  //FORCING A RE-RENDER
-  //https://www.freecodecamp.org/news/force-refreshing-a-react-child-component-the-easy-way-6cdbb9e6d99c/
-  componentWillReceiveProps(props) {
+  componentDidUpdate(prevProps) {
     const { ingredients } = this.props;
-    if (props.ingredients.length !== ingredients.length) {
-      this.updatePrices(props.ingredients);
-    }
+    if (prevProps.ingredients.length !== ingredients.length)
+      this.updatePrices(ingredients);
   }
 
   updatePrices = ingredients => {
@@ -57,17 +55,18 @@ class BillingUI extends React.Component {
     let saladQuantity = 0;
     //refactor this after UI
     ingredientsArray.forEach(currentIngredient => {
+      const { prices } = this.state;
       switch (currentIngredient) {
         case "meat":
-          meatTotal += this.state.prices.get(currentIngredient);
+          meatTotal += prices.get(currentIngredient);
           meatQuantity++;
           break;
         case "salad":
-          saladTotal += this.state.prices.get(currentIngredient);
+          saladTotal += prices.get(currentIngredient);
           saladQuantity++;
           break;
         case "cheese":
-          cheeseTotal += this.state.prices.get(currentIngredient);
+          cheeseTotal += prices.get(currentIngredient);
           cheeseQuantity++;
           break;
         default:
@@ -86,37 +85,73 @@ class BillingUI extends React.Component {
   }
 
   render() {
-    return (
-      <div className="billing-ui-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Units</th>
-              <th>Sub Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <BillingSubTotal
-              ingredientName={"Meat"}
-              quantity={this.state.meatQuantity}
-              subTotal={this.state.meatSubTotal}
-            />
-            <BillingSubTotal
-              ingredientName={"Cheese"}
-              quantity={this.state.cheeseQuantity}
-              subTotal={this.state.cheeseSubTotal}
-            />
-            <BillingSubTotal
-              ingredientName={"Salad"}
-              quantity={this.state.saladQuantity}
-              subTotal={this.state.saladSubTotal}
-            />
-          </tbody>
-        </table>
+    const {
+      meatQuantity,
+      meatSubTotal,
+      cheeseQuantity,
+      cheeseSubTotal,
+      saladSubTotal,
+      saladQuantity,
+      total
+    } = this.state;
 
-        <span className="bill-total">{`Total: ${this.state.total}`}</span>
-      </div>
+    const { onAddIngredient, onDeleteIngredient } = this.props;
+
+    return (
+        <div className="billing-ui-container">
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Units</th>
+                  <th>Sub Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <BillingSubTotal
+                  ingredientName={"Meat"}
+                  quantity={meatQuantity}
+                  subTotal={meatSubTotal}
+                />
+                <BillingSubTotal
+                  ingredientName={"Cheese"}
+                  quantity={cheeseQuantity}
+                  subTotal={cheeseSubTotal}
+                />
+                <BillingSubTotal
+                  ingredientName={"Salad"}
+                  quantity={saladQuantity}
+                  subTotal={saladSubTotal}
+                />
+              </tbody>
+            </table>
+            <span className="bill-total">{`Total: ${total}`}</span>{" "}
+          </div>
+          <div>
+            <IngredientHandler
+              ingredientName={"meat"}
+              onAddIngredient={onAddIngredient}
+              onDeleteIngredient={onDeleteIngredient}
+              subTotal={meatSubTotal}
+            />
+            <IngredientHandler
+              ingredientName={"cheese"}
+              onAddIngredient={onAddIngredient}
+              onDeleteIngredient={onDeleteIngredient}
+              subTotal={cheeseSubTotal}
+            />
+            <IngredientHandler
+              ingredientName={"salad"}
+              onAddIngredient={onAddIngredient}
+              onDeleteIngredient={onDeleteIngredient}
+              subTotal={saladSubTotal}
+            />
+          </div>
+          <div className="props-children">
+              {this.props.children}
+          </div>
+        </div>    
     );
   }
 }

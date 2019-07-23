@@ -9,3 +9,8 @@
 .bill-total{
     font-weight: bold;
 }
+
+
+.props-children{
+    margin-top: 7vh;
+}

@@ -1,7 +1,7 @@
 import React from "react";
+import Storage from "./utility/storage";
 import BurgerUI from "./components/burger_ui/BurgerUI";
 import BillingUI from "./components/billing_ui/BillingUI";
-import IngredientsManager from "./components/ingredients_manager/IngredientsManager";
 
 import ingredientsApi from "./data/ingredients.js";
 
@@ -26,18 +26,21 @@ class App extends React.Component {
   // }
 
   render() {
+    const { hamburger } = this.state;
     return (
-      <>
-        <div className="App">
-          <BurgerUI ingredients={this.state.hamburger} />
-          <BillingUI ingredients={this.state.hamburger} reference={ingredientsApi}/>
-        </div>
-          <IngredientsManager
-            ingredients={ingredientsApi}
-            onAddIngredient={this.addIngredientToBurger}
-            onDeleteIngredient={this.deleteIngredient}
-          />
-      </>
+      <div className="App">
+        <BurgerUI ingredients={hamburger} />
+        <BillingUI
+          ingredients={hamburger}
+          reference={ingredientsApi}
+          onAddIngredient={this.addIngredientToBurger}
+          onDeleteIngredient={this.deleteIngredient}
+        >
+          <div>
+            <button onClick={this.addBurgerToOrder}>Order Burger!</button>
+          </div>
+        </BillingUI>
+      </div>
     );
   }
 
@@ -48,23 +51,23 @@ class App extends React.Component {
   };
 
   deleteIngredient = ingredientToDelete => {
-    let indexToDelete = this.state.hamburger.findIndex(
+    const { hamburger } = this.state;
+    let indexToDelete = hamburger.findIndex(
       ingredient => ingredient === ingredientToDelete
     );
 
     if (indexToDelete === -1) return;
 
-    let newArray = this.state.hamburger.filter(
+    let newArray = hamburger.filter(
       (ingredient, index) => index !== indexToDelete
     );
-    this.setState(
-      {
-        hamburger: newArray
-      },
-      () => {
-        console.log(this.state.hamburger);
-      }
-    );
+    this.setState({
+      hamburger: newArray
+    });
+  };
+
+  addBurgerToOrder = () => {
+    Storage.saveBurgerToLocalStorage(this.state.hamburger);
   };
 }
 
