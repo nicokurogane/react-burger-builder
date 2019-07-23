@@ -1,23 +1,22 @@
 import React from 'react';
-import Storage from './../../classes/utility/storage.js';
 
 import './ingredient-handler.css';
 
 class IngredientHandler extends React.Component {
 
     addIngredient = () => {
-        this.props.onAddIngredient( new this.props.classToHandle());
+        this.props.onAddIngredient(this.props.ingredientName);
     }
 
     deleteIngredient = () => {
-       this.props.onDeleteIngredient(this.props.classToHandle);
+       this.props.onDeleteIngredient(this.props.ingredientName);
     }
 
     render() {
         return (
             <div className="ingredient-handler-container">
-                <button onClick={this.addIngredient} >add 1 {this.props.classToHandle.name}</button>
-                <button onClick={this.deleteIngredient} >remove 1 {this.props.classToHandle.name}</button>
+                <button onClick={this.addIngredient} >add 1 {this.props.ingredientName}</button>
+                <button onClick={this.deleteIngredient} >remove 1 {this.props.ingredientName}</button>
             </div>
         );
     }
