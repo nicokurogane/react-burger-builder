@@ -1,7 +1,4 @@
 import React from 'react';
-import Meat from './../../classes/meat.js';
-import Cheese from './../../classes/cheese.js';
-import Salad from './../../classes/salad.js';
 import BillingSubTotal from './../billing_subtotal/BillingSubTotal';
 import './billing-ui.css';
 
@@ -33,7 +30,7 @@ class BillingUI extends React.Component {
         this.setState({
             total: this.getTotal(ingredients)
         });
-        this.getSubTotalPerIngredient(ingredients);
+    //    this.getSubTotalPerIngredient(ingredients);
     }
 
     getTotal(arrayToReduce) {
@@ -49,19 +46,19 @@ class BillingUI extends React.Component {
         let cheeseQuantity = 0;
         let saladTotal = 0;
         let saladQuantity = 0;
-
-        ingredientsArray.forEach(currentIngredient => {
-            if (currentIngredient instanceof Meat) {
-                meatTotal += currentIngredient.price;
-                meatQuantity++;
-            } else if (currentIngredient instanceof Cheese) {
-                cheeseTotal += currentIngredient.price;
-                cheeseQuantity++;
-            } else if (currentIngredient instanceof Salad) {
-                saladTotal += currentIngredient.price;
-                saladQuantity++;
-            }
-        });
+//refactor this after UI
+        // ingredientsArray.forEach(currentIngredient => {
+        //     if (currentIngredient instanceof Meat) {
+        //         meatTotal += currentIngredient.price;
+        //         meatQuantity++;
+        //     } else if (currentIngredient instanceof Cheese) {
+        //         cheeseTotal += currentIngredient.price;
+        //         cheeseQuantity++;
+        //     } else if (currentIngredient instanceof Salad) {
+        //         saladTotal += currentIngredient.price;
+        //         saladQuantity++;
+        //     }
+        // });
 
         this.setState({
             meatSubTotal: meatTotal,

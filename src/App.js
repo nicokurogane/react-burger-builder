@@ -1,6 +1,5 @@
 import React from "react";
-import Storage from "./classes/utility/storage.js";
-import BurgerUI from "./components/burgerrender/BurgerUI";
+import BurgerUI from "./components/burger_ui/BurgerUI";
 import BillingUI from "./components/billing_ui/BillingUI";
 import IngredientsManager from "./components/ingredients_manager/IngredientsManager";
 
