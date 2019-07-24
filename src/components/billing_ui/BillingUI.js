@@ -34,10 +34,9 @@ class BillingUI extends React.Component {
   };
 
   getTotal(arrayToReduce) {
-    const{ prices, baseprice } = this.state;
+    const { prices, baseprice } = this.state;
     let total = arrayToReduce.reduce(
-      (acc, currentIngredient) =>
-        acc + prices.get(currentIngredient),
+      (acc, currentIngredient) => acc + prices.get(currentIngredient),
       0
     );
     total += baseprice;
@@ -171,16 +170,22 @@ class BillingUI extends React.Component {
   }
 
   changePricesCurrency = e => {
-    const {prices, baseprice} = this.state;
+    const { prices, baseprice } = this.state;
     let tempPrices = prices;
     let tempBaseprice = baseprice;
 
     for (let key of tempPrices.keys()) {
       if (e.target.value === "USD") {
-        tempPrices.set(key, CurrencyConversor.euroToDollar(tempPrices.get(key)));
+        tempPrices.set(
+          key,
+          CurrencyConversor.euroToDollar(tempPrices.get(key))
+        );
         tempBaseprice = CurrencyConversor.euroToDollar(tempBaseprice);
       } else if (e.target.value === "EUR") {
-        tempPrices.set(key, CurrencyConversor.dollarToEuro(tempPrices.get(key)));
+        tempPrices.set(
+          key,
+          CurrencyConversor.dollarToEuro(tempPrices.get(key))
+        );
         tempBaseprice = CurrencyConversor.dollarToEuro(tempBaseprice);
       }
     }
@@ -197,10 +202,10 @@ class BillingUI extends React.Component {
     );
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
       total: this.state.baseprice
-    })
+    });
   }
 
   componentDidUpdate(prevProps) {

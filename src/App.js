@@ -3,15 +3,15 @@ import Storage from "./utility/storage";
 import BurgerUI from "./components/burger_ui/BurgerUI";
 import BillingUI from "./components/billing_ui/BillingUI";
 
-import ingredientsApi from "./data/ingredients.js";
+import ingredientsApi from "./data/ingredients";
 
 import "./App.css";
 
 class App extends React.Component {
-  state = { hamburger: [] };
+  state = { hamburger: [], shouldMessageHide: true, alertMessage: "" };
 
   render() {
-    const { hamburger } = this.state;
+    const { hamburger, shouldMessageHide } = this.state;
     return (
       <div className="App">
         <BurgerUI ingredients={hamburger} />
@@ -21,11 +21,21 @@ class App extends React.Component {
           onAddIngredient={this.addIngredientToBurger}
           onDeleteIngredient={this.deleteIngredient}
         >
-          <div>
-            <button onClick={this.addBurgerToOrder}>Order Burger!</button>
-            <button onClick={this.getLastOrderedBurger}>PreviousBurger</button>
+          <div className="order-buttons-container">
+            <button onClick={this.addBurgerToOrder} className="take-order-button">
+              Order Burger!
+            </button>
+            <button onClick={this.getLastOrderedBurger} className="load-order-button">
+              Previous Burger
+            </button>
           </div>
         </BillingUI>
+        <div
+          className="message-container"
+          style={{ opacity: shouldMessageHide ? 0 : 1 }}
+        >
+          {this.state.alertMessage}
+        </div>
       </div>
     );
   }
@@ -54,15 +64,33 @@ class App extends React.Component {
 
   addBurgerToOrder = () => {
     Storage.saveBurgerToLocalStorage(this.state.hamburger);
+    this.showMessage("Your order was taken!");
+    this.setState({
+      hamburger: []
+    });
   };
 
-  getLastOrderedBurger = () =>{
+  getLastOrderedBurger = () => {
+
     let array = Storage.getBurgerFromLocalStorage();
     this.setState({
       hamburger: array
     });
-  }
+    this.showMessage("Loaded last taken order.");
+  };
 
+  showMessage(message) {
+    this.setState({
+      shouldMessageHide: false,
+      alertMessage: message
+    });
+
+    setTimeout(() => {
+      this.setState({
+        shouldMessageHide: true
+      });
+    }, 4000);
+  }
 }
 
 export default App;
