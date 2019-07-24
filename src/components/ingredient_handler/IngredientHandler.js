@@ -12,16 +12,21 @@ class IngredientHandler extends React.Component {
   };
 
   render() {
-   // const { countIngredient } = this.props;
     return (
       <div className="ingredient-handler-container">
-        <button onClick={this.addIngredient}>
-          add 1 {this.props.ingredientName}
-        </button>
+        <div className="buttons-container">
+          <button onClick={this.addIngredient} className="add-button">
+            add 1 {this.props.ingredientName}
+          </button>
 
-        <button  style={{display: this.props.subTotal>0 ? 'block':'none'}}  onClick={this.deleteIngredient} >
-          remove 1 {this.props.ingredientName}
-        </button>
+          <button
+            style={{ opacity: this.props.subTotal > 0 ? 1 : 0 }}
+            onClick={this.deleteIngredient}
+            className="remove-button"
+          >
+            remove 1 {this.props.ingredientName}
+          </button>
+        </div>
       </div>
     );
   }
