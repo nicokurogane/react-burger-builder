@@ -98,7 +98,7 @@ class BillingUI extends React.Component {
     return (
       <div className="billing-ui-container">
         <div>
-          <table>
+          <table className="billing-table">
             <thead>
               <tr>
                 <th>Name</th>
@@ -127,10 +127,9 @@ class BillingUI extends React.Component {
               />
             </tbody>
           </table>
-          <span className="bill-total">{`Total: ${CurrencyConversor.formatNumberCurrency(
-            currency,
-            total
-          )}`}</span>
+          <div className="bill-total">
+            <span>{`Total: ${CurrencyConversor.formatNumberCurrency(currency,total)}`}</span>
+          </div>
           <div className="currency-container">
             <span>Change Currency</span>
             <select onChange={event => this.changePricesCurrency(event)}>

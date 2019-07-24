@@ -1,20 +1,34 @@
-.billing-ui-container{
-    margin: 5vh 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-self: stretch;
+.billing-ui-container {
+  margin: 5vh 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
 }
 
-.currency-container{
-    margin-top: 3vh;
+.billing-table{
+  border-collapse: collapse;
 }
 
-.bill-total{
-    font-weight: bold;
+
+.billing-table thead th {
+  padding: 0 2.5vh ;
+  border-bottom: 1px solid #ddd;
+  margin: 0
 }
 
-.props-children{
-    margin-top: 7vh;
+.currency-container {
+  margin-top: 3vh;
+}
+
+.bill-total {
+  margin-top: 2vh;
+  font-weight: bold;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.props-children {
+  margin-top: 7vh;
 }
