@@ -1,15 +1,18 @@
 .billing-ui-container{
-    margin-top: 5vh;
+    margin: 5vh 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+.currency-container{
+    margin-top: 3vh;
+}
+
 .bill-total{
     font-weight: bold;
 }
-
 
 .props-children{
     margin-top: 7vh;

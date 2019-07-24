@@ -15,7 +15,7 @@ class CurrencyConversor {
 
   static formatNumberCurrency(currencyCode, priceToFormat){
     if(currencyCode === "USD"){
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' }).format(priceToFormat);
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(priceToFormat);
     }else if(currencyCode === "EUR"){
         return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(priceToFormat);
     }

@@ -13,14 +13,16 @@ class BillingUI extends React.Component {
     });
 
     this.state = {
-      total: 1,
+      total: 0,
+      baseprice: 1,
       meatQuantity: 0,
       meatSubTotal: 0,
       cheeseQuantity: 0,
       cheeseSubTotal: 0,
       saladSubTotal: 0,
       saladQuantity: 0,
-      prices: pricesMap
+      prices: pricesMap,
+      currency: "USD"
     };
   }
 
@@ -32,12 +34,13 @@ class BillingUI extends React.Component {
   };
 
   getTotal(arrayToReduce) {
+    const{ prices, baseprice } = this.state;
     let total = arrayToReduce.reduce(
       (acc, currentIngredient) =>
-        acc + this.state.prices.get(currentIngredient),
+        acc + prices.get(currentIngredient),
       0
     );
-    total += 1;
+    total += baseprice;
     return total;
   }
 
@@ -48,7 +51,7 @@ class BillingUI extends React.Component {
     let cheeseQuantity = 0;
     let saladTotal = 0;
     let saladQuantity = 0;
-    //refactor this after UI
+
     ingredientsArray.forEach(currentIngredient => {
       const { prices } = this.state;
       switch (currentIngredient) {
@@ -87,7 +90,8 @@ class BillingUI extends React.Component {
       cheeseSubTotal,
       saladSubTotal,
       saladQuantity,
-      total
+      total,
+      currency
     } = this.state;
 
     const { onAddIngredient, onDeleteIngredient } = this.props;
@@ -108,21 +112,28 @@ class BillingUI extends React.Component {
                 ingredientName={"Meat"}
                 quantity={meatQuantity}
                 subTotal={meatSubTotal}
+                currency={currency}
               />
               <BillingSubTotal
                 ingredientName={"Cheese"}
                 quantity={cheeseQuantity}
                 subTotal={cheeseSubTotal}
+                currency={currency}
               />
               <BillingSubTotal
                 ingredientName={"Salad"}
                 quantity={saladQuantity}
                 subTotal={saladSubTotal}
+                currency={currency}
               />
             </tbody>
           </table>
-          <span className="bill-total">{`Total: ${total}`}</span>{" "}
-          <div>
+          <span className="bill-total">{`Total: ${CurrencyConversor.formatNumberCurrency(
+            currency,
+            total
+          )}`}</span>
+          <div className="currency-container">
+            <span>Change Currency</span>
             <select onChange={event => this.changePricesCurrency(event)}>
               {CurrencyConversor.getCurrencies().map(currency => {
                 return (
@@ -160,31 +171,40 @@ class BillingUI extends React.Component {
   }
 
   changePricesCurrency = e => {
-    let tempPrices = this.state.prices;
+    const {prices, baseprice} = this.state;
+    let tempPrices = prices;
+    let tempBaseprice = baseprice;
+
     for (let key of tempPrices.keys()) {
       if (e.target.value === "USD") {
-        tempPrices.set(
-          key,
-          CurrencyConversor.euroToDollar(tempPrices.get(key))
-        );
+        tempPrices.set(key, CurrencyConversor.euroToDollar(tempPrices.get(key)));
+        tempBaseprice = CurrencyConversor.euroToDollar(tempBaseprice);
       } else if (e.target.value === "EUR") {
-        tempPrices.set(
-          key,
-          CurrencyConversor.dollarToEuro(tempPrices.get(key))
-        );
+        tempPrices.set(key, CurrencyConversor.dollarToEuro(tempPrices.get(key)));
+        tempBaseprice = CurrencyConversor.dollarToEuro(tempBaseprice);
       }
     }
 
+    this.setState(
+      {
+        prices: tempPrices,
+        currency: e.target.value,
+        baseprice: tempBaseprice
+      },
+      () => {
+        this.updatePrices(this.props.ingredients);
+      }
+    );
+  };
+
+  componentDidMount(){
     this.setState({
-      prices: tempPrices
-    },()=>{
-      this.updatePrices(this.props.ingredients);
-    });
+      total: this.state.baseprice
+    })
   }
 
   componentDidUpdate(prevProps) {
     const { ingredients } = this.props;
-
     if (prevProps.ingredients.length !== ingredients.length) {
       this.updatePrices(ingredients);
     }
