@@ -1,4 +1,5 @@
 import React from "react";
+import CurrencyConversor from "../../utility/currencyconversor.js";
 import IngredientHandler from "./../ingredient_handler/IngredientHandler";
 import BillingSubTotal from "./../billing_subtotal/BillingSubTotal";
 import "./billing-ui.css";
@@ -21,12 +22,6 @@ class BillingUI extends React.Component {
       saladQuantity: 0,
       prices: pricesMap
     };
-  }
-
-  componentDidUpdate(prevProps) {
-    const { ingredients } = this.props;
-    if (prevProps.ingredients.length !== ingredients.length)
-      this.updatePrices(ingredients);
   }
 
   updatePrices = ingredients => {
@@ -98,61 +93,101 @@ class BillingUI extends React.Component {
     const { onAddIngredient, onDeleteIngredient } = this.props;
 
     return (
-        <div className="billing-ui-container">
+      <div className="billing-ui-container">
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Units</th>
+                <th>Sub Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <BillingSubTotal
+                ingredientName={"Meat"}
+                quantity={meatQuantity}
+                subTotal={meatSubTotal}
+              />
+              <BillingSubTotal
+                ingredientName={"Cheese"}
+                quantity={cheeseQuantity}
+                subTotal={cheeseSubTotal}
+              />
+              <BillingSubTotal
+                ingredientName={"Salad"}
+                quantity={saladQuantity}
+                subTotal={saladSubTotal}
+              />
+            </tbody>
+          </table>
+          <span className="bill-total">{`Total: ${total}`}</span>{" "}
           <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Units</th>
-                  <th>Sub Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <BillingSubTotal
-                  ingredientName={"Meat"}
-                  quantity={meatQuantity}
-                  subTotal={meatSubTotal}
-                />
-                <BillingSubTotal
-                  ingredientName={"Cheese"}
-                  quantity={cheeseQuantity}
-                  subTotal={cheeseSubTotal}
-                />
-                <BillingSubTotal
-                  ingredientName={"Salad"}
-                  quantity={saladQuantity}
-                  subTotal={saladSubTotal}
-                />
-              </tbody>
-            </table>
-            <span className="bill-total">{`Total: ${total}`}</span>{" "}
+            <select onChange={event => this.changePricesCurrency(event)}>
+              {CurrencyConversor.getCurrencies().map(currency => {
+                return (
+                  <option value={currency} key={currency}>
+                    {currency}
+                  </option>
+                );
+              })}
+            </select>
           </div>
-          <div>
-            <IngredientHandler
-              ingredientName={"meat"}
-              onAddIngredient={onAddIngredient}
-              onDeleteIngredient={onDeleteIngredient}
-              subTotal={meatSubTotal}
-            />
-            <IngredientHandler
-              ingredientName={"cheese"}
-              onAddIngredient={onAddIngredient}
-              onDeleteIngredient={onDeleteIngredient}
-              subTotal={cheeseSubTotal}
-            />
-            <IngredientHandler
-              ingredientName={"salad"}
-              onAddIngredient={onAddIngredient}
-              onDeleteIngredient={onDeleteIngredient}
-              subTotal={saladSubTotal}
-            />
-          </div>
-          <div className="props-children">
-              {this.props.children}
-          </div>
-        </div>    
+        </div>
+        <div>
+          <IngredientHandler
+            ingredientName={"meat"}
+            onAddIngredient={onAddIngredient}
+            onDeleteIngredient={onDeleteIngredient}
+            subTotal={meatSubTotal}
+          />
+          <IngredientHandler
+            ingredientName={"cheese"}
+            onAddIngredient={onAddIngredient}
+            onDeleteIngredient={onDeleteIngredient}
+            subTotal={cheeseSubTotal}
+          />
+          <IngredientHandler
+            ingredientName={"salad"}
+            onAddIngredient={onAddIngredient}
+            onDeleteIngredient={onDeleteIngredient}
+            subTotal={saladSubTotal}
+          />
+        </div>
+        <div className="props-children">{this.props.children}</div>
+      </div>
     );
+  }
+
+  changePricesCurrency = e => {
+    let tempPrices = this.state.prices;
+    for (let key of tempPrices.keys()) {
+      if (e.target.value === "USD") {
+        tempPrices.set(
+          key,
+          CurrencyConversor.euroToDollar(tempPrices.get(key))
+        );
+      } else if (e.target.value === "EUR") {
+        tempPrices.set(
+          key,
+          CurrencyConversor.dollarToEuro(tempPrices.get(key))
+        );
+      }
+    }
+
+    this.setState({
+      prices: tempPrices
+    },()=>{
+      this.updatePrices(this.props.ingredients);
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { ingredients } = this.props;
+
+    if (prevProps.ingredients.length !== ingredients.length) {
+      this.updatePrices(ingredients);
+    }
   }
 }
 

@@ -10,21 +10,6 @@ import "./App.css";
 class App extends React.Component {
   state = { hamburger: [] };
 
-  // componentDidMount() {
-  //   let temp = Storage.getBurgerFromLocalStorage().map(object => {
-  //     if (object.name === "meat") {
-  //       return new Meat();
-  //     } else if (object.name === "salad") {
-  //       return new Salad();
-  //     } else if (object.name === "cheese") {
-  //       return new Cheese();
-  //     }
-  //   });
-  //   this.setState({
-  //     ingredients: temp
-  //   });
-  // }
-
   render() {
     const { hamburger } = this.state;
     return (
@@ -38,6 +23,7 @@ class App extends React.Component {
         >
           <div>
             <button onClick={this.addBurgerToOrder}>Order Burger!</button>
+            <button onClick={this.getLastOrderedBurger}>PreviousBurger</button>
           </div>
         </BillingUI>
       </div>
@@ -69,6 +55,14 @@ class App extends React.Component {
   addBurgerToOrder = () => {
     Storage.saveBurgerToLocalStorage(this.state.hamburger);
   };
+
+  getLastOrderedBurger = () =>{
+    let array = Storage.getBurgerFromLocalStorage();
+    this.setState({
+      hamburger: array
+    });
+  }
+
 }
 
 export default App;
