@@ -128,7 +128,10 @@ class BillingUI extends React.Component {
             </tbody>
           </table>
           <div className="bill-total">
-            <span>{`Total: ${CurrencyConversor.formatNumberCurrency(currency,total)}`}</span>
+            <span>{`Total: ${CurrencyConversor.formatNumberCurrency(
+              currency,
+              total
+            )}`}</span>
           </div>
           <div className="currency-container">
             <span>Change Currency</span>

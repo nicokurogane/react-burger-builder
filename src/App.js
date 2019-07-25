@@ -8,7 +8,11 @@ import ingredientsApi from "./data/ingredients";
 import "./App.css";
 
 class App extends React.Component {
-  state = { hamburger: [], shouldMessageHide: true, alertMessage: "" };
+  state = {
+    hamburger: [],
+    shouldMessageHide: true,
+    alertMessage: ""
+  };
 
   render() {
     const { hamburger, shouldMessageHide } = this.state;
@@ -22,10 +26,16 @@ class App extends React.Component {
           onDeleteIngredient={this.deleteIngredient}
         >
           <div className="order-buttons-container">
-            <button onClick={this.addBurgerToOrder} className="take-order-button">
+            <button
+              onClick={this.addBurgerToOrder}
+              className="take-order-button"
+            >
               Order Burger!
             </button>
-            <button onClick={this.getLastOrderedBurger} className="load-order-button">
+            <button
+              onClick={this.getLastOrderedBurger}
+              className="load-order-button"
+            >
               Previous Burger
             </button>
           </div>
@@ -71,7 +81,6 @@ class App extends React.Component {
   };
 
   getLastOrderedBurger = () => {
-
     let array = Storage.getBurgerFromLocalStorage();
     this.setState({
       hamburger: array
