@@ -7,6 +7,16 @@
   align-self: stretch;
 }
 
+select {
+  margin:  2vh 15px;
+  width: 100px;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 34px;
+}
+
+
 .billing-table{
   border-collapse: collapse;
 }
@@ -32,3 +42,4 @@
 .props-children {
   margin-top: 7vh;
 }
+
